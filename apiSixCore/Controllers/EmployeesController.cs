@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using apiSixCore.Models;
 using System.Web.Http.Cors;
+using System.Web;
 
 namespace apiSixCore.Controllers
 {
@@ -20,8 +21,9 @@ namespace apiSixCore.Controllers
 
 
         //This action method returns all employee records.  
-        // GET api/<controller>  
-        public IEnumerable<Employee> Get()
+        // GET api/<controller> 
+       // [Route("api/getAllemployees")]
+        public  IEnumerable<Employee> Get()
         {
             //returning all records of table Employee.  
             return db.Employees.ToList().AsEnumerable();
@@ -34,13 +36,21 @@ namespace apiSixCore.Controllers
             //fetching and filter specific Employee id record   
             var employeedetails = (from e in db.Employees where e.EmployeeNumber == id select e).FirstOrDefault();
 
-
+           
             //checking fetched or not with the help of NULL or NOT.  
             if (employeedetails != null)
             {
-               
-                //sending response as status code OK with employeetdetails entity.  
-                return Request.CreateResponse(HttpStatusCode.OK, employeedetails);
+
+                ////calculatng age
+                int empyear = Convert.ToInt32(employeedetails.DateOfBirth.Year);
+                int empdate = Convert.ToInt32(employeedetails.DateOfBirth.DayOfYear);
+                int age = 0;
+                age = DateTime.Now.Year - empyear;
+                if (DateTime.Now.DayOfYear < empdate)
+                    age = age - 1;
+
+               //sending response as status code OK with employeetdetails and age entity.  
+                return Request.CreateResponse(HttpStatusCode.OK, new { employeedetails,age});
             }
             else
             {
