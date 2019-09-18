@@ -85,7 +85,7 @@ namespace apiSix.Controllers
 
         //To update department record  
         // PUT api/update<controller>/5  
-        public HttpResponseMessage Put(int id, [FromBody]Department _department)
+        public HttpResponseMessage Patch(int id, [FromBody]Department _department)
         {
             //fetching and filter specific department id record   
             var departmentdetail = (from a in db.Departments where a.Id == id select a).FirstOrDefault();
@@ -110,6 +110,9 @@ namespace apiSix.Controllers
 
 
         }
+
+
+
 
 
         // DELETE api/delete<controller>/5  

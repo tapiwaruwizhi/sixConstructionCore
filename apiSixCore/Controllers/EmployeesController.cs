@@ -80,7 +80,7 @@ namespace apiSixCore.Controllers
 
         //To update employww record  
         // PUT api/update<controller>/5  
-        public HttpResponseMessage put(string id, [FromBody]Employee employee)
+        public HttpResponseMessage Patch(string id, [FromBody]Employee employee)
         {
             //fetching and filter specific employee id record   
             var employeedetails = (from e in db.Employees where e.EmployeeNumber == id select e).FirstOrDefault();
